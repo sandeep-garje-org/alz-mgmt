@@ -339,7 +339,24 @@ hub_virtual_networks = {
       routing_address_space         = ["$${primary_hub_address_space}"]
       route_table_name_firewall     = "$${primary_route_table_firewall_name}"
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      subnets                       = {}
+            subnets = {
+        dns_resolver_outbound = {
+          name             = "dns-resolver-outbound"
+          address_prefixes = ["$${primary_private_dns_resolver_outbound_subnet_address_prefix}"]
+
+          delegations = [
+            {
+              name = "dns-resolver"
+              service_delegation = {
+                name = "Microsoft.Network/dnsResolvers"
+                actions = [
+                  "Microsoft.Network/virtualNetworks/subnets/join/action"
+                ]
+              }
+            }
+          ]
+        }
+      }
     }
     firewall = {
       subnet_address_prefix            = "$${primary_firewall_subnet_address_prefix}"
@@ -403,9 +420,15 @@ hub_virtual_networks = {
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      inbound_subnet_address_prefix  = "$${primary_private_dns_resolver_inbound_subnet_address_prefix}"
-      outbound_subnet_address_prefix = "$${primary_private_dns_resolver_outbound_subnet_address_prefix}"
-      name                           = "$${primary_private_dns_resolver_name}"
+      name                  = "$${primary_private_dns_resolver_name}"
+      subnet_address_prefix = "$${primary_private_dns_resolver_inbound_subnet_address_prefix}"
+
+      outbound_endpoints = {
+        primary = {
+          name        = "dns-outbound"
+          subnet_name = "dns-resolver-outbound"
+        }
+      }
     }
     bastion = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
