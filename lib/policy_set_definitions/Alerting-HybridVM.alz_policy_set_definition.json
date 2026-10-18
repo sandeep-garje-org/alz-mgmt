@@ -777,7 +777,6 @@
       },
       "HybridVMHeartBeatRGWindowSize": {
         "allowedValues": [
-          "PT1M",
           "PT5M",
           "PT15M",
           "PT30M",
