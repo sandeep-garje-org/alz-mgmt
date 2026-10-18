@@ -24,8 +24,7 @@
   "exists": false
   "id": "mg-puckett-corp"
   "parent_id": "mg-puckett-landingzones"
-- "archetypes":
-  - []
+- "archetypes": []
   "display_name": "CMMC Enclave"
   "exists": false
   "id": "mg-puckett-cmmc"
