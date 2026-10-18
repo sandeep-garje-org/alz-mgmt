@@ -25,6 +25,10 @@ provider "alz" {
   library_overwrite_enabled = true
   library_references = [
     {
+      path = "platform/amba"
+      ref  = "2026.06.2"
+    },
+    {
       custom_url = "${path.root}/lib"
     }
   ]
