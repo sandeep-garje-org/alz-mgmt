@@ -418,6 +418,7 @@ hub_virtual_networks = {
           }
         }
       }
+    }
     private_dns_zones = {
       parent_id = "$${dns_resource_group_id}"
       private_link_private_dns_zones_regex_filter = {
