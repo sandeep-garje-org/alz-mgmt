@@ -783,7 +783,7 @@
           "PT1H",
           "PT6H",
           "PT12H",
-          "P24H"
+          "PT24H"
         ],
         "defaultValue": "PT15M",
         "metadata": {
