@@ -393,24 +393,31 @@ hub_virtual_networks = {
           }
         }
       }
-      vpn = {
+            vpn = {
         name = "$${primary_virtual_network_gateway_vpn_name}"
+
         ip_configurations = {
           active_active_1 = {
-            # name = "vnetGatewayConfigactive_active_1"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
+
+              ip_tags = {
+                FirstPartyUsage = "/Unprivileged"
+              }
             }
           }
+
           active_active_2 = {
-            # name = "vnetGatewayConfigactive_active_2"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
+
+              ip_tags = {
+                FirstPartyUsage = "/Unprivileged"
+              }
             }
           }
         }
       }
-    }
     private_dns_zones = {
       parent_id = "$${dns_resource_group_id}"
       private_link_private_dns_zones_regex_filter = {
