@@ -23,7 +23,11 @@ terraform {
 
 provider "alz" {
   library_overwrite_enabled = true
+
   library_references = [
+    {
+      custom_url = "${path.root}/lib/policy_set_definitions"
+    },
     {
       path = "platform/amba"
       ref  = "2026.06.2"
