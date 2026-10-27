@@ -248,7 +248,7 @@ management_group_settings = {
     }
   }
   policy_assignments_to_modify = {
-    alz = {
+    FactoryALZManagementGroup = {
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
           parameters = {

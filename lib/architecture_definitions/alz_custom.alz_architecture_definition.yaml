@@ -1,7 +1,7 @@
 name: alz_custom
 management_groups:
-  - id: alz
-    display_name: Azure Landing Zones
+  - id: FactoryALZManagementGroup
+    display_name: Factory-ALZ-Mgmt-Group_AMER
     archetypes:
       - root_custom
       - amba_root
@@ -13,14 +13,14 @@ management_groups:
     archetypes:
       - platform_custom
     exists: false
-    parent_id: alz
+    parent_id: FactoryALZManagementGroup
 
   - id: mg-puckett-landingzones
     display_name: Landing Zones
     archetypes:
       - landing_zones_custom
     exists: false
-    parent_id: alz
+    parent_id: FactoryALZManagementGroup
 
   - id: mg-puckett-corp
     display_name: Corp
@@ -40,7 +40,7 @@ management_groups:
     archetypes:
       - sandbox_custom
     exists: false
-    parent_id: alz
+    parent_id: FactoryALZManagementGroup
 
   - id: mg-puckett-security
     display_name: Security
@@ -75,4 +75,4 @@ management_groups:
     archetypes:
       - decommissioned_custom
     exists: false
-    parent_id: alz
+    parent_id: FactoryALZManagementGroup
