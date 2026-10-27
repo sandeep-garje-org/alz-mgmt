@@ -1,74 +1,78 @@
-"management_groups":
-- "archetypes":
-  - "root_custom"
-  - "amba_root"
-  "display_name": "Azure Landing Zones"
-  "exists": true
-  "id": "alz"
-  "parent_id": null
-- "archetypes":
-  - "platform_custom"
-  "display_name": "Platform"
-  "exists": false
-  "id": "mg-puckett-platform"
-  "parent_id": "alz"
-- "archetypes":
-  - "landing_zones_custom"
-  "display_name": "Landing Zones"
-  "exists": false
-  "id": "mg-puckett-landingzones"
-  "parent_id": "alz"
-- "archetypes":
-  - "corp_custom"
-  "display_name": "Corp"
-  "exists": false
-  "id": "mg-puckett-corp"
-  "parent_id": "mg-puckett-landingzones"
-- "archetypes": []
-  "display_name": "CMMC Enclave"
-  "exists": false
-  "id": "mg-puckett-cmmc"
-  "parent_id": "mg-puckett-landingzones"
-- "archetypes":
-  - "local_custom"
-  "display_name": "Local"
-  "exists": false
-  "id": "mg-puckett-local"
-  "parent_id": "mg-puckett-landingzones"
-- "archetypes":
-  - "sandbox_custom"
-  "display_name": "Sandbox"
-  "exists": false
-  "id": "mg-puckett-sandbox"
-  "parent_id": "alz"
-- "archetypes":
-  - "security_custom"
-  "display_name": "Security"
-  "exists": false
-  "id": "mg-puckett-security"
-  "parent_id": "mg-puckett-platform"
-- "archetypes":
-  - "management_custom"
-  "display_name": "Management"
-  "exists": false
-  "id": "mg-puckett-management"
-  "parent_id": "mg-puckett-platform"
-- "archetypes":
-  - "connectivity_custom"
-  "display_name": "Connectivity"
-  "exists": false
-  "id": "mg-puckett-connectivity"
-  "parent_id": "mg-puckett-platform"
-- "archetypes":
-  - "identity_custom"
-  "display_name": "Identity"
-  "exists": false
-  "id": "mg-puckett-identity"
-  "parent_id": "mg-puckett-platform"
-- "archetypes":
-  - "decommissioned_custom"
-  "display_name": "Decommissioned"
-  "exists": false
-  "id": "mg-puckett-decommissioned"
-  "parent_id": "alz"
-"name": "alz_custom"
+name: alz_custom
+management_groups:
+  - id: alz
+    display_name: Azure Landing Zones
+    archetypes:
+      - root_custom
+      - amba_root
+    exists: true
+    parent_id: null
+
+  - id: mg-puckett-platform
+    display_name: Platform
+    archetypes:
+      - platform_custom
+    exists: false
+    parent_id: alz
+
+  - id: mg-puckett-landingzones
+    display_name: Landing Zones
+    archetypes:
+      - landing_zones_custom
+    exists: false
+    parent_id: alz
+
+  - id: mg-puckett-corp
+    display_name: Corp
+    archetypes:
+      - corp_custom
+    exists: false
+    parent_id: mg-puckett-landingzones
+
+  - id: mg-puckett-cmmc
+    display_name: CMMC Enclave
+    archetypes: []
+    exists: false
+    parent_id: mg-puckett-landingzones
+
+  - id: mg-puckett-sandbox
+    display_name: Sandbox
+    archetypes:
+      - sandbox_custom
+    exists: false
+    parent_id: alz
+
+  - id: mg-puckett-security
+    display_name: Security
+    archetypes:
+      - security_custom
+    exists: false
+    parent_id: mg-puckett-platform
+
+  - id: mg-puckett-management
+    display_name: Management
+    archetypes:
+      - management_custom
+    exists: false
+    parent_id: mg-puckett-platform
+
+  - id: mg-puckett-connectivity
+    display_name: Connectivity
+    archetypes:
+      - connectivity_custom
+    exists: false
+    parent_id: mg-puckett-platform
+
+  - id: mg-puckett-identity
+    display_name: Identity
+    archetypes:
+      - identity_custom
+    exists: false
+    parent_id: mg-puckett-platform
+
+  - id: mg-puckett-decommissioned
+    display_name: Decommissioned
+    archetypes:
+      - decommissioned_custom
+    exists: false
+    parent_id: alz

@@ -18,7 +18,7 @@ Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starte
 You can define the Azure regions to use throughout the configuration.
 The first location will be used as the primary location, the second as the secondary location, and so on.
 */
-starter_locations = ["uksouth"]
+starter_locations = ["centralus"]
 
 /*
 --- Custom Replacements ---
@@ -39,9 +39,9 @@ custom_replacements = {
     ddos_protection_plan_enabled = false
 
     # Resource provisioning primary connectivity
-    primary_firewall_enabled                                             = false
+    primary_firewall_enabled                                             = true
     primary_firewall_sku_tier                                            = "Premium"
-    primary_firewall_management_ip_enabled                               = false
+    primary_firewall_management_ip_enabled                               = true
     primary_virtual_network_gateway_express_route_enabled                = false
     primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = false
     primary_virtual_network_gateway_vpn_enabled                          = true
@@ -51,9 +51,14 @@ custom_replacements = {
     primary_bastion_enabled                                              = false
 
     # Resource group names
-    management_resource_group_name               = "rg-management-$${starter_location_01}"
-    connectivity_hub_primary_resource_group_name = "rg-hub-$${starter_location_01}"
-    dns_resource_group_name                      = "rg-hub-dns-$${starter_location_01}"
+    management_resource_group_name               = "rg-mgmt-logging-prod-cus-01"
+    connectivity_hub_primary_resource_group_name = "rg-conn-hub-prod-cus-01"
+    dns_resource_group_name                      = "rg-conn-dns-prod-cus-01"
+    vpn_resource_group_name                      = "rg-conn-vpn-prod-cus-01"
+    key_vault_resource_group_name                = "rg-conn-kv-prod-cus-01"
+    management_network_resource_group_name       = "rg-mgmt-network-prod-cus-01"
+    identity_network_resource_group_name         = "rg-idam-network-prod-cus-01"
+    identity_sync_resource_group_name            = "rg-idam-sync-prod-cus-01"
     ddos_resource_group_name                     = "rg-hub-ddos-$${starter_location_01}"
     asc_export_resource_group_name               = "rg-asc-export-$${starter_location_01}"
     service_health_alerts_resource_group_name    = "rg-service-health-alerts-$${starter_location_01}"
@@ -70,7 +75,7 @@ custom_replacements = {
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
     # Resource names primary connectivity
-    primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
+    primary_virtual_network_name                                 = "vnet-conn-prod-cus-01"
     primary_firewall_name                                        = "fw-hub-$${starter_location_01}"
     primary_firewall_policy_name                                 = "fwp-hub-$${starter_location_01}"
     primary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_01}"
@@ -91,12 +96,12 @@ custom_replacements = {
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
-    primary_hub_address_space                          = "10.152.104.0/21"
-    primary_hub_virtual_network_address_space          = "10.152.104.0/23"
-    primary_firewall_subnet_address_prefix             = "10.152.104.0/26"
-    primary_firewall_management_subnet_address_prefix  = "10.152.104.64/26"
-    primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
-    primary_gateway_subnet_address_prefix              = "10.152.104.128/26"
+    primary_hub_address_space                                   = "10.152.104.0/21"
+    primary_hub_virtual_network_address_space                   = "10.152.104.0/23"
+    primary_firewall_subnet_address_prefix                      = "10.152.104.0/26"
+    primary_firewall_management_subnet_address_prefix           = "10.152.104.64/26"
+    primary_bastion_subnet_address_prefix                       = "10.0.0.64/26"
+    primary_gateway_subnet_address_prefix                       = "10.152.104.128/26"
     primary_private_dns_resolver_inbound_subnet_address_prefix  = "10.152.104.192/28"
     primary_private_dns_resolver_outbound_subnet_address_prefix = "10.152.104.208/28"
   }
@@ -197,26 +202,26 @@ management_group_settings = {
     resource_group_name_mdfc                    = "$${asc_export_resource_group_name}"
     resource_group_location                     = "$${starter_location_01}"
     email_security_contact                      = "$${defender_email_security_contact}"
-    
-    amba_alz_management_subscription_id                = "$${subscription_id_management}"
-    amba_alz_resource_group_location                   = "$${starter_location_01}"
-    amba_alz_resource_group_name                       = "$${amba_resource_group_name}"
-    amba_alz_user_assigned_managed_identity_name       = "$${amba_user_assigned_managed_identity_name}"
-    amba_alz_action_group_email                        = ["v-sgarje@microsoft.com"]
-    amba_alz_arm_role_id                               = []
-    amba_alz_resource_group_tags                       = {}
-    amba_alz_byo_user_assigned_managed_identity_id     = ""
-    amba_alz_disable_tag_name                          = ""
-    amba_alz_disable_tag_values                        = []
-    amba_alz_webhook_service_uri                       = []
-    amba_alz_event_hub_resource_id                     = []
-    amba_alz_function_resource_id                      = ""
-    amba_alz_function_trigger_url                      = ""
-    amba_alz_logicapp_resource_id                      = ""
-    amba_alz_logicapp_callback_url                     = ""
-    amba_alz_byo_alert_processing_rule                 = ""
-    amba_alz_byo_action_group                          = []
-    
+
+    amba_alz_management_subscription_id            = "$${subscription_id_management}"
+    amba_alz_resource_group_location               = "$${starter_location_01}"
+    amba_alz_resource_group_name                   = "$${amba_resource_group_name}"
+    amba_alz_user_assigned_managed_identity_name   = "$${amba_user_assigned_managed_identity_name}"
+    amba_alz_action_group_email                    = ["v-sgarje@microsoft.com"]
+    amba_alz_arm_role_id                           = []
+    amba_alz_resource_group_tags                   = {}
+    amba_alz_byo_user_assigned_managed_identity_id = ""
+    amba_alz_disable_tag_name                      = ""
+    amba_alz_disable_tag_values                    = []
+    amba_alz_webhook_service_uri                   = []
+    amba_alz_event_hub_resource_id                 = []
+    amba_alz_function_resource_id                  = ""
+    amba_alz_function_trigger_url                  = ""
+    amba_alz_logicapp_resource_id                  = ""
+    amba_alz_logicapp_callback_url                 = ""
+    amba_alz_byo_alert_processing_rule             = ""
+    amba_alz_byo_action_group                      = []
+
     /*
     # Example of allowed locations for Sovereign Landing Zones policies
     allowed_locations = [
@@ -286,7 +291,69 @@ You can use this section to customize the hub virtual networking that will be de
 */
 connectivity_type = "hub_and_spoke_vnet"
 
+management_resource_groups = {
+  network = {
+    name     = "$${management_network_resource_group_name}"
+    location = "$${starter_location_01}"
+  }
+}
+
+management_virtual_networks = {
+  platform = {
+    name               = "vnet-mgmt-prod-cus-01"
+    resource_group_key = "network"
+    location           = "$${starter_location_01}"
+    address_space      = ["10.152.106.0/24"]
+    subnets = {
+      shared = {
+        name             = "snet-mgmt-shared-01"
+        address_prefixes = ["10.152.106.0/25"]
+      }
+    }
+  }
+}
+
+identity_virtual_networks = {
+  identity = {
+    name               = "vnet-idam-prod-cus-01"
+    resource_group_key = "network"
+    location           = "$${starter_location_01}"
+    address_space      = ["10.152.107.0/24"]
+    subnets = {
+      sync = {
+        name             = "snet-idam-sync-01"
+        address_prefixes = ["10.152.107.0/27"]
+      }
+    }
+  }
+}
+
+identity_resource_groups = {
+  network = {
+    name     = "$${identity_network_resource_group_name}"
+    location = "$${starter_location_01}"
+  }
+  sync = {
+    name     = "$${identity_sync_resource_group_name}"
+    location = "$${starter_location_01}"
+  }
+}
+
 connectivity_resource_groups = {
+  vpn = {
+    name     = "$${vpn_resource_group_name}"
+    location = "$${starter_location_01}"
+    settings = {
+      enabled = true
+    }
+  }
+  key_vault = {
+    name     = "$${key_vault_resource_group_name}"
+    location = "$${starter_location_01}"
+    settings = {
+      enabled = true
+    }
+  }
   ddos = {
     name     = "$${ddos_resource_group_name}"
     location = "$${starter_location_01}"
@@ -339,11 +406,13 @@ hub_virtual_networks = {
       routing_address_space         = ["$${primary_hub_address_space}"]
       route_table_name_firewall     = "$${primary_route_table_firewall_name}"
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-            subnets = {
+      subnets = {
         dns_resolver_outbound = {
-          name             = "dns-resolver-outbound"
+          name             = "snet-conn-dnsout-01"
           address_prefixes = ["$${primary_private_dns_resolver_outbound_subnet_address_prefix}"]
-
+          route_table = {
+            assign_generated_route_table = false
+          }
           delegations = [
             {
               name = "dns-resolver"
@@ -355,6 +424,13 @@ hub_virtual_networks = {
               }
             }
           ]
+        }
+        shared = {
+          name             = "snet-conn-shared-01"
+          address_prefixes = ["10.152.105.0/25"]
+          route_table = {
+            assign_generated_route_table = false
+          }
         }
       }
     }
@@ -393,27 +469,19 @@ hub_virtual_networks = {
           }
         }
       }
-            vpn = {
+      vpn = {
         name = "$${primary_virtual_network_gateway_vpn_name}"
-
         ip_configurations = {
           active_active_1 = {
+            # name = "vnetGatewayConfigactive_active_1"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
-
-              ip_tags = {
-                FirstPartyUsage = "/Unprivileged"
-              }
             }
           }
-
           active_active_2 = {
+            # name = "vnetGatewayConfigactive_active_2"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
-
-              ip_tags = {
-                FirstPartyUsage = "/Unprivileged"
-              }
             }
           }
         }
@@ -428,13 +496,16 @@ hub_virtual_networks = {
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      name                  = "$${primary_private_dns_resolver_name}"
-      subnet_address_prefix = "$${primary_private_dns_resolver_inbound_subnet_address_prefix}"
+      name                             = "$${primary_private_dns_resolver_name}"
+      resource_group_name              = "$${dns_resource_group_name}"
+      subnet_name                      = "snet-conn-dnsin-01"
+      subnet_address_prefix            = "$${primary_private_dns_resolver_inbound_subnet_address_prefix}"
+      default_inbound_endpoint_enabled = true
 
       outbound_endpoints = {
         primary = {
           name        = "dns-outbound"
-          subnet_name = "dns-resolver-outbound"
+          subnet_name = "snet-conn-dnsout-01"
         }
       }
     }

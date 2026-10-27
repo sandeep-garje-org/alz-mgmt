@@ -12,6 +12,10 @@ module "config" {
   custom_replacements = var.custom_replacements
 
   inputs = {
+    management_resource_groups      = var.management_resource_groups
+    identity_resource_groups        = var.identity_resource_groups
+    management_virtual_networks     = var.management_virtual_networks
+    identity_virtual_networks       = var.identity_virtual_networks
     connectivity_resource_groups    = var.connectivity_resource_groups
     hub_and_spoke_networks_settings = var.hub_and_spoke_networks_settings
     hub_virtual_networks            = var.hub_virtual_networks

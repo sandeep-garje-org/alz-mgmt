@@ -81,6 +81,73 @@ variable "custom_replacements" {
   description = "Custom replacements"
 }
 
+variable "management_resource_groups" {
+  type = map(object({
+    name     = string
+    location = string
+    tags     = optional(map(string))
+  }))
+  default     = {}
+  description = "Additional management subscription resource groups. Do not include the logging group owned by the management resources module."
+}
+
+variable "identity_resource_groups" {
+  type = map(object({
+    name     = string
+    location = string
+    tags     = optional(map(string))
+  }))
+  default     = {}
+  description = "Resource groups to create in the identity subscription."
+
+  validation {
+    condition     = length(var.identity_resource_groups) == 0 || can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", var.subscription_ids["identity"]))
+    error_message = "A valid identity subscription ID is required when identity_resource_groups is nonempty."
+  }
+}
+
+variable "management_virtual_networks" {
+  type = map(object({
+    name               = string
+    resource_group_key = string
+    location           = string
+    address_space      = list(string)
+    tags               = optional(map(string))
+    subnets = map(object({
+      name             = string
+      address_prefixes = list(string)
+    }))
+  }))
+  default     = {}
+  description = "Management VNets and subnets, without peerings or custom routes."
+
+  validation {
+    condition     = alltrue([for network in var.management_virtual_networks : contains(keys(var.management_resource_groups), network.resource_group_key)])
+    error_message = "Each management VNet must reference a key in management_resource_groups."
+  }
+}
+
+variable "identity_virtual_networks" {
+  type = map(object({
+    name               = string
+    resource_group_key = string
+    location           = string
+    address_space      = list(string)
+    tags               = optional(map(string))
+    subnets = map(object({
+      name             = string
+      address_prefixes = list(string)
+    }))
+  }))
+  default     = {}
+  description = "Identity VNets and subnets, without peerings or custom routes."
+
+  validation {
+    condition     = alltrue([for network in var.identity_virtual_networks : contains(keys(var.identity_resource_groups), network.resource_group_key)])
+    error_message = "Each identity VNet must reference a key in identity_resource_groups."
+  }
+}
+
 variable "tags" {
   type        = map(string)
   default     = null
