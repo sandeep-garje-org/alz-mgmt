@@ -23,8 +23,8 @@ terraform {
 
 provider "alz" {
   library_overwrite_enabled = true
-
   library_references = [
+    # Load policy fixes first: the current ALZ library loader retains the first definition.
     {
       custom_url = "${path.root}/lib/policy_set_definitions"
     },
@@ -67,6 +67,17 @@ provider "azurerm" {
   resource_provider_registrations = "none"
   alias                           = "connectivity"
   subscription_id                 = var.subscription_ids["connectivity"]
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
+}
+
+provider "azurerm" {
+  resource_provider_registrations = "none"
+  alias                           = "identity"
+  subscription_id                 = try(var.subscription_ids["identity"], null)
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false

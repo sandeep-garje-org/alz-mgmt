@@ -45,6 +45,14 @@ terraform.rc
 # Ignore ALZ Migration specific files and folders
 tfplan
 tfplan.json
+*.tfplan
+*.plan
+*.bak
+.env
+.env.*
+*.pem
+*.pfx
+*.key
 resources.json
 issues.json
 issues.csv
