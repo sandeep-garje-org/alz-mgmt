@@ -75,11 +75,27 @@ The bootstrap VNet `vnet-mgmt-prod-cus-02` (`10.152.111.0/26`) must remain
 unpeered. It is managed by separate bootstrap state, not by the platform network
 resources. Its private runners use NAT for outbound access.
 
-When publishing platform code, retain the active Azure Storage backend and mark
-the intermediate `alz` group as existing, matching bootstrap repository assembly.
+The architecture uses existing `FactoryALZManagementGroup` as its root; there is
+no intermediate `alz` group. Platform, Landing Zones, Sandbox and Decommissioned
+are its direct children. Their descendant `mg-puckett-*` IDs are unchanged.
+Bootstrap reuses this group for management-group RBAC and does not create it or
+move subscriptions. The platform retains the final subscription placements.
+
+Root policy definitions and assignments, including `root_custom` and `amba_root`,
+now target `FactoryALZManagementGroup`. They can affect every subscription below
+that existing group, including subscriptions outside this architecture. Review
+this broader inheritance scope before deploying.
+
+When publishing platform code, retain the active Azure Storage backend and the
+existing-root architecture flag, matching bootstrap repository assembly.
 Do not upload bootstrap state, saved plans, dependency caches, or credentials.
 Merging to `main` triggers the existing continuous delivery workflow; review the
 bootstrap migration and platform plan before merging.
+
+Removing `alz` from the design does not reconcile old Terraform state. A full
+refreshed plan may still read or propose deleting old `alz` resources, role
+assignments and subscription placements. Do not apply or remove state entries
+without an approved migration review.
 
 #### Offline network tests
 

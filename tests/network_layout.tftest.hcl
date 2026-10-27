@@ -49,11 +49,27 @@ run "network_configuration" {
     custom_replacements             = var.custom_replacements
     enable_telemetry                = false
     inputs = {
+      management_group_settings   = var.management_group_settings
       hub_virtual_networks        = var.hub_virtual_networks
       management_virtual_networks = var.management_virtual_networks
       identity_virtual_networks   = var.identity_virtual_networks
       management_resource_groups  = var.management_resource_groups
     }
+  }
+
+  assert {
+    condition = (
+      output.outputs.management_group_settings.parent_resource_id == "FactoryALZManagementGroup" &&
+      contains(keys(output.outputs.management_group_settings.policy_assignments_to_modify), "FactoryALZManagementGroup") &&
+      !contains(keys(output.outputs.management_group_settings.policy_assignments_to_modify), "alz") &&
+      alltrue([
+        for group in yamldecode(file("./lib/architecture_definitions/alz_custom.alz_architecture_definition.yaml")).management_groups :
+        group.id != "alz" && group.parent_id != "alz" &&
+        (group.parent_id != null || (group.id == "FactoryALZManagementGroup" && group.exists)) &&
+        (!contains(["mg-puckett-platform", "mg-puckett-landingzones", "mg-puckett-sandbox", "mg-puckett-decommissioned"], group.id) || group.parent_id == "FactoryALZManagementGroup")
+      ])
+    )
+    error_message = "Management-group configuration and root policy overrides must target the existing Factory group."
   }
 
   assert {
